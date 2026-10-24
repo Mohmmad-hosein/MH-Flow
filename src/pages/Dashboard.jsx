@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PanelIcon from '../components/panel/PanelIcon';
 
 
 const ProBadge = () => (
@@ -19,7 +20,7 @@ const StatCard = ({ title, value, subtitle, colorClass }) => (
 const PremiumLockOverlay = ({ title, desc }) => (
   <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#050816]/60 backdrop-blur-[6px] rounded-2xl border border-brandPurple/30">
     <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-brandPurple to-brandPink rounded-xl mb-3 shadow-[0_0_20px_rgba(236,72,153,0.4)]">
-      <span className="text-xl">👑</span>
+      <span className="text-xl"><PanelIcon name="crown" size={20} /></span>
     </div>
     <h3 className="text-slate-50 font-bold mb-1">{title}</h3>
     <p className="text-xs text-slate-50/60 mb-4 max-w-[200px] text-center">{desc}</p>
@@ -34,12 +35,12 @@ const Dashboard = () => {
   const [showNotifs, setShowNotifs] = useState(false);
 
   return (
-    <div className="h-screen w-full bg-darkBg flex text-slate-50 overflow-hidden font-vazirmatn" dir="rtl">
+    <div className="min-h-full w-full bg-darkBg text-slate-50 font-vazirmatn" dir="rtl">
       
-      <main className="flex-1 h-full overflow-y-auto overflow-x-hidden p-8 relative">
+      <section className="min-h-full overflow-x-hidden p-5 sm:p-8 relative">
         <div className="absolute top-[-10%] left-[-5%] w-96 h-96 bg-brandBlue/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <header className="flex justify-between items-center mb-8 relative z-50">
+        <header className="flex flex-wrap justify-between items-center gap-4 mb-8 relative z-50">
           <div>
             <h1 className="text-[1.75rem] font-bold mb-1">داشبورد شما</h1>
             <p className="text-sm text-slate-50/50">امروز دوشنبه، ۱۲ شهریور — <span className="text-brandPurple font-semibold">۳ وظیفه</span> در انتظار شماست.</p>
@@ -50,7 +51,7 @@ const Dashboard = () => {
               onClick={() => setShowNotifs(!showNotifs)}
               className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors relative border ${showNotifs ? 'bg-brandPurple/20 text-brandPurple border-brandPurple/50' : 'bg-white/5 border-white/10 text-slate-50/70 hover:text-white'}`}
             >
-              🔔
+              <PanelIcon name="bell" size={19} />
               <span className="absolute top-2 right-2.5 w-2 h-2 bg-brandPink rounded-full animate-pulse"></span>
             </button>
 
@@ -80,7 +81,7 @@ const Dashboard = () => {
             )}
 
             <Link to="/dashboard/profile" className="w-11 h-11 rounded-full bg-gradient-to-br from-brandBlue to-brandPurple p-[2px] cursor-pointer shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:shadow-[0_0_20px_rgba(139,92,246,0.6)] transition-all">
-              <div className="w-full h-full bg-darkBg rounded-full border border-white/20 flex items-center justify-center text-sm">👤</div>
+              <div className="w-full h-full bg-darkBg rounded-full border border-white/20 flex items-center justify-center text-sm"><PanelIcon name="user" size={18} /></div>
             </Link>
           </div>
         </header>
@@ -127,7 +128,7 @@ const Dashboard = () => {
                   </div>
                   <div>
                     <div className={`text-sm ${task.done ? 'line-through text-slate-50/50' : 'text-slate-50'}`}>{task.title}</div>
-                    <div className="text-[10px] text-slate-50/40 mt-1">🕒 {task.time}</div>
+                    <div className="text-[10px] text-slate-50/40 mt-1 flex items-center gap-1"><PanelIcon name="clock" size={12} /> {task.time}</div>
                   </div>
                 </div>
               ))}
@@ -135,7 +136,7 @@ const Dashboard = () => {
           </div>
 
         </div>
-      </main>
+      </section>
     </div>
   );
 };

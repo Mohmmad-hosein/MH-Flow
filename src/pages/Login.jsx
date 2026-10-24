@@ -43,7 +43,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-darkBg text-slate-50 overflow-hidden">
+    <div className="mh-login-shell min-h-screen w-full flex bg-darkBg text-slate-50 overflow-hidden">
       <style>{`
         /* انیمیشن حرکت آرام هاله‌های رنگی */
         @keyframes blob {
@@ -71,8 +71,8 @@ const Login = () => {
             to="/"
             className="flex items-center gap-3 text-xl font-bold mb-12 no-underline w-fit hover:opacity-80 transition-opacity"
           >
-            <div className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-brandPurple to-brandViolet rounded-xl shadow-[0_0_15px_rgba(139,92,246,0.3)]">
-              ✦
+            <div className="w-11 h-11 flex items-center justify-center rounded-2xl border border-white/15 bg-white/[.06] shadow-lg overflow-hidden">
+              <img src="/mh-flow-mark.png" alt="MH Flow" className="w-9 h-9 object-contain" />
             </div>
             MH Flow
           </Link>
@@ -142,6 +142,8 @@ const Login = () => {
             <div>
               <input
                 type="email"
+                autoComplete={isLogin ? "email" : "email"}
+                required
                 className="w-full bg-transparent border border-white/10 rounded-xl px-4 py-3.5 text-sm outline-none transition-all focus:border-brandPurple focus:bg-white/5"
                 placeholder="ایمیل (name@example.com)"
               />
@@ -149,6 +151,9 @@ const Login = () => {
             <div>
               <input
                 type="password"
+                autoComplete={isLogin ? "current-password" : "new-password"}
+                required
+                minLength={6}
                 className="w-full bg-transparent border border-white/10 rounded-xl px-4 py-3.5 text-sm outline-none transition-all focus:border-brandPurple focus:bg-white/5 mb-3"
                 placeholder="رمز عبور"
               />

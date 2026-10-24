@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 
 const DashboardLayout = () => {
   return (
-    <div className="h-screen w-full bg-darkBg flex text-slate-50 overflow-hidden font-vazirmatn" dir="rtl">
+    <div className="mh-workspace-shell h-screen w-full bg-darkBg flex text-slate-50 overflow-hidden font-vazirmatn" dir="rtl">
       <Sidebar />
       
       <main className="flex-1 h-full overflow-y-auto overflow-x-hidden relative">

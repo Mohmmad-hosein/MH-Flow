@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PanelIcon from './PanelIcon';
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -23,10 +24,10 @@ const Settings = () => {
           
           <div className="w-full md:w-64 shrink-0 space-y-2">
             {[
-              { id: 'profile', icon: '👤', label: 'اطلاعات پروفایل' },
-              { id: 'billing', icon: '💳', label: 'اشتراک و مالی' },
-              { id: 'preferences', icon: '⚙️', label: 'ترجیحات برنامه' },
-              { id: 'notifications', icon: '🔔', label: 'اعلان‌ها' },
+              { id: 'profile', icon: 'user', label: 'اطلاعات پروفایل' },
+              { id: 'billing', icon: 'analytics', label: 'اشتراک و مالی' },
+              { id: 'preferences', icon: 'settings', label: 'ترجیحات برنامه' },
+              { id: 'notifications', icon: 'bell', label: 'اعلان‌ها' },
             ].map(tab => (
               <button
                 key={tab.id}
@@ -37,7 +38,7 @@ const Settings = () => {
                     : 'bg-transparent border border-transparent text-slate-50/60 hover:bg-white/5 hover:text-slate-50'
                 }`}
               >
-                <span>{tab.icon}</span>
+                <PanelIcon name={tab.icon} size={18} />
                 {tab.label}
               </button>
             ))}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -28,16 +29,17 @@ const Footer = () => {
         <div className="text-xs text-slate-50/30">بدون نیاز به کارت بانکی · نصب فوری · لغو هر زمان</div>
       </section>
 
-      <footer className="py-8 px-10 border-t border-white/10 flex justify-between items-center flex-wrap gap-4 relative z-10">
+      <footer className="py-8 px-5 sm:px-8 lg:px-10 border-t border-white/10 flex justify-between items-center flex-wrap gap-4 relative z-10">
         <a href="#" className="flex items-center gap-2 text-base font-bold text-slate-50 no-underline">
-          <div className="w-7 h-7 flex items-center justify-center bg-gradient-to-br from-brandPurple to-brandViolet rounded-lg text-xs shadow-[0_0_15px_rgba(139,92,246,0.5)]">✦</div>
+          <img src="/mh-flow-mark.png" alt="" width="28" height="28" className="h-7 w-7 object-contain" loading="lazy" decoding="async" />
           MH Flow
         </a>
         <p className="text-xs text-slate-50/55">© ۲۰۲۵ MH Flow — تمام حقوق محفوظ است</p>
         <div className="flex gap-6">
           <a href="#" className="text-xs text-slate-50/55 hover:text-slate-50 transition-colors">قیمت‌ها</a>
           <a href="#" className="text-xs text-slate-50/55 hover:text-slate-50 transition-colors">وبلاگ</a>
-          <a href="#" className="text-xs text-slate-50/55 hover:text-slate-50 transition-colors">پشتیبانی</a>
+          <Link to="/report-bug" className="text-xs text-slate-50/55 hover:text-slate-50 transition-colors no-underline">گزارش باگ</Link>
+          <Link to="/privacy" className="text-xs text-slate-50/55 hover:text-slate-50 transition-colors no-underline">حریم خصوصی</Link>
         </div>
       </footer>
     </>
