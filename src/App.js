@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -6,9 +5,9 @@ import About from './pages/About';
 import NotFound from './pages/NotFound';
 import BugReport from './pages/BugReport';
 import Privacy from './pages/Privacy';
+import Dashboard from './pages/Dashboard';
 
 import DashboardLayout from './components/panel/DashboardLayout';
-import Dashboard from './pages/Dashboard';
 import Tasks from './components/panel/Task';
 import UserProfile from './components/panel/UserProfile';
 import Settings from './components/panel/Settings';
