@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { cleanPlainText, validateUserText } from '../utils/inputSafety';
 
 const STORAGE_KEY = 'mh-flow-bug-reports-v1';
 
@@ -29,10 +30,14 @@ const BugReport = () => {
 
   const submit = (event) => {
     event.preventDefault();
-    const title = form.title.trim();
-    const description = form.description.trim();
-    if (title.length < 4 || description.length < 10) {
-      setStatus('عنوان باید حداقل ۴ و توضیحات حداقل ۱۰ نویسه داشته باشد.');
+    const title = cleanPlainText(form.title);
+    const description = cleanPlainText(form.description);
+    const steps = cleanPlainText(form.steps);
+    const titleError = validateUserText(title, { min: 4, max: 100 });
+    const descriptionError = validateUserText(description, { min: 10, max: 3000 });
+    const stepsError = steps ? validateUserText(steps, { max: 2000 }) : '';
+    if (titleError || descriptionError || stepsError) {
+      setStatus(titleError || descriptionError || stepsError);
       return;
     }
 
@@ -41,7 +46,7 @@ const BugReport = () => {
       ...form,
       title,
       description,
-      steps: form.steps.trim(),
+      steps,
       technicalInfo,
     };
 
@@ -91,14 +96,14 @@ const BugReport = () => {
           <span className="mb-4 inline-flex rounded-full border border-violet-300/20 bg-violet-300/[.07] px-4 py-2 text-xs text-violet-100">بازخورد و بهبود محصول</span>
           <h1 className="mb-3 text-3xl font-extrabold sm:text-4xl">گزارش باگ در MH Flow</h1>
           <p className="max-w-2xl text-sm leading-7 text-slate-200/60 sm:text-base">
-            مشکلی پیدا کرده‌اید؟ جزئیات را بنویسید تا بتوانیم آن را بررسی کنیم. در نسخه فعلی، گزارش فقط در حافظه همین مرورگر ذخیره می‌شود و به تیمی ارسال نمی‌شود.
+            مشکلی پیدا کرده‌اید؟ جزئیات را بنویسید تا بتوانیم آن را بررسی کنیم. در نسخه فعلی، گزارش فقط در حافظه همین مرورگر ذخیره می‌شود و به تیمی ارسال نمی‌شود. متن‌های توهین‌آمیز و الگوهای کد مشکوک نیز بررسی می‌شوند.
           </p>
         </div>
 
         <form onSubmit={submit} className="relative z-10 space-y-6 rounded-3xl border border-white/10 bg-white/[.045] p-5 shadow-2xl backdrop-blur-xl sm:p-8">
           <div>
             <label htmlFor="bug-title" className={labelClass}>عنوان مشکل *</label>
-            <input id="bug-title" name="title" value={form.title} onChange={update} maxLength={100} required minLength={4} placeholder="مثلاً: وظیفه جدید ذخیره نمی‌شود" className={inputClass} />
+            <input id="bug-title" name="title" value={form.title} onChange={(e) => { update(e); setStatus(''); }} maxLength={100} required minLength={4} placeholder="مثلاً: وظیفه جدید ذخیره نمی‌شود" className={inputClass} />
             <p className="mt-1 text-left text-xs text-slate-200/35">{form.title.length}/100</p>
           </div>
 
@@ -127,13 +132,13 @@ const BugReport = () => {
 
           <div>
             <label htmlFor="bug-description" className={labelClass}>شرح مشکل *</label>
-            <textarea id="bug-description" name="description" value={form.description} onChange={update} required minLength={10} maxLength={3000} rows={5} placeholder="چه اتفاقی افتاد و انتظار داشتید چه اتفاقی بیفتد؟" className={inputClass + ' resize-y'} />
+            <textarea id="bug-description" name="description" value={form.description} onChange={(e) => { update(e); setStatus(''); }} required minLength={10} maxLength={3000} rows={5} placeholder="چه اتفاقی افتاد و انتظار داشتید چه اتفاقی بیفتد؟" className={inputClass + ' resize-y'} />
             <p className="mt-1 text-left text-xs text-slate-200/35">{form.description.length}/3000</p>
           </div>
 
           <div>
             <label htmlFor="bug-steps" className={labelClass}>مراحل بازتولید مشکل (اختیاری)</label>
-            <textarea id="bug-steps" name="steps" value={form.steps} onChange={update} maxLength={2000} rows={3} placeholder={'۱. وارد داشبورد شوید\n۲. روی «وظایف» کلیک کنید\n۳. مشکل را مشاهده کنید'} className={inputClass + ' resize-y'} />
+            <textarea id="bug-steps" name="steps" value={form.steps} onChange={(e) => { update(e); setStatus(''); }} maxLength={2000} rows={3} placeholder={'۱. وارد داشبورد شوید\n۲. روی «وظایف» کلیک کنید\n۳. مشکل را مشاهده کنید'} className={inputClass + ' resize-y'} />
           </div>
 
           <div className="rounded-2xl border border-cyan-200/10 bg-cyan-200/[.035] p-4">

@@ -36,3 +36,15 @@ body .mh-login-shell{background:transparent!important}
 .mh-login-shell>div:first-child>div{padding:clamp(1.25rem,4vw,3rem);border:1px solid rgba(255,255,255,.08);border-radius:28px;background:rgba(255,255,255,.025);box-shadow:0 24px 70px rgba(0,0,0,.18)}
 @media(max-width:1023px){.mh-login-shell>div:first-child>div{border:0;background:transparent;box-shadow:none;padding:0}}
 @media(hover:hover){[class*="rounded-2xl"],[class*="rounded-3xl"]{transition:border-color .22s ease,background-color .22s ease,transform .22s ease}article[class*="rounded-2xl"]:hover{border-color:rgba(155,135,255,.3)!important}}
+
+
+/* Premium tactile controls: soft elevation, crisp highlights and a real press state */
+button:not(:disabled){position:relative;transform:translateY(0);transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s ease,filter .18s ease,border-color .18s ease}
+button:not(:disabled):active{transform:translateY(2px) scale(.985);filter:brightness(.96);box-shadow:inset 0 2px 5px rgba(0,0,0,.22)!important}
+button:disabled{cursor:not-allowed;opacity:.55}
+button[class*="bg-gradient"],button[class*="bg-brandPurple"],button[type="submit"]{box-shadow:0 7px 0 rgba(49,35,105,.42),0 13px 28px rgba(100,75,210,.2),inset 0 1px 0 rgba(255,255,255,.24)!important}
+button[class*="bg-gradient"]:hover,button[class*="bg-brandPurple"]:hover,button[type="submit"]:hover{transform:translateY(-2px);filter:brightness(1.07)}
+input:not([type="checkbox"]):not([type="radio"]),textarea,select{min-height:46px;border-radius:14px;transition:border-color .2s ease,background .2s ease,box-shadow .2s ease}
+input:not([type="checkbox"]):not([type="radio"]):focus,textarea:focus,select:focus{border-color:rgba(167,139,250,.72)!important;box-shadow:0 0 0 4px rgba(139,92,246,.12),0 8px 24px rgba(0,0,0,.12)!important}
+.download-card{box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 20px 50px rgba(0,0,0,.2);transition:transform .3s ease,border-color .3s ease,background .3s ease}
+@media(hover:hover){.download-card:hover{transform:translateY(-6px);border-color:rgba(167,139,250,.35);background:rgba(255,255,255,.065)}}
