@@ -1,9 +1,9 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.example.app',
+  appId: 'com.mhflow.app',
   appName: 'MH Flow',
-  webDir: 'build'
+  webDir: 'dist',
 };
 
 export default config;

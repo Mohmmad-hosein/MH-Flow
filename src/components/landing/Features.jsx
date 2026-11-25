@@ -1,4 +1,5 @@
 import React from 'react';
+import { m, useReducedMotion } from 'framer-motion';
 
 const featureIcons = {
   brain: <><path d="M9 3a3 3 0 0 0-3 3v.3A3.7 3.7 0 0 0 4 13a3.5 3.5 0 0 0 3 5.8A3 3 0 0 0 12 17V6a3 3 0 0 0-3-3Z"/><path d="M15 3a3 3 0 0 1 3 3v.3A3.7 3.7 0 0 1 20 13a3.5 3.5 0 0 1-3 5.8A3 3 0 0 1 12 17M8 8c1.5 0 2.5 1 2.5 2.5M16 8c-1.5 0-2.5 1-2.5 2.5M8 14c1.2 0 2 .5 2.5 1.5M16 14c-1.2 0-2 .5-2.5 1.5"/></>,
@@ -25,7 +26,9 @@ const toneClasses = {
   pink: 'bg-pink-400/10 text-pink-200 ring-pink-300/20',
 };
 
-const Features = () => (
+const Features = () => {
+  const reduceMotion = useReducedMotion();
+  return (
   <section className="relative mx-auto max-w-[1200px] px-5 sm:px-8 lg:px-10 py-20 sm:py-24" id="features">
     <div className="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-56 w-56 -translate-x-1/2 rounded-full bg-violet-500/10 blur-3xl" />
     <div className="mx-auto mb-12 max-w-2xl text-center">
@@ -37,17 +40,18 @@ const Features = () => (
     </div>
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {featuresList.map((feature) => (
-        <article key={feature.title} className="group relative overflow-hidden rounded-2xl border border-white/[.11] bg-white/[.035] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] transition-[transform,border-color,background-color] duration-300 hover:-translate-y-1 hover:border-violet-300/30 hover:bg-white/[.06] motion-reduce:transform-none">
+        <m.article key={feature.title} initial={reduceMotion ? false : { opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.15 }} transition={{ duration: 0.55, delay: reduceMotion ? 0 : (featuresList.indexOf(feature) % 3) * 0.08 }} className="group relative overflow-hidden rounded-2xl border border-white/[.11] bg-white/[.035] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,.05)] transition-[transform,border-color,background-color] duration-300 hover:-translate-y-1 hover:border-violet-300/30 hover:bg-white/[.06] motion-reduce:transform-none">
           <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
           <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl ring-1 ${toneClasses[feature.tone]}`}>
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{featureIcons[feature.icon]}</svg>
           </div>
           <h3 className="mb-2 text-base font-semibold text-white">{feature.title}</h3>
           <p className="text-sm leading-7 text-slate-100/60">{feature.desc}</p>
-        </article>
+        </m.article>
       ))}
     </div>
   </section>
-);
+  );
+};
 
 export default Features;

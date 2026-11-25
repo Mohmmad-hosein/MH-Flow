@@ -5,6 +5,8 @@ const navItems = [
   { label: 'ویژگی‌ها', href: '/#features' },
   { label: 'قیمت‌ها', href: '/#pricing' },
   { label: 'درباره ما', href: '/about' },
+  { label: 'حریم خصوصی', href: '/privacy' },
+  { label: 'گزارش باگ', href: '/report-bug' },
 ];
 
 const Navbar = () => {
@@ -13,7 +15,7 @@ const Navbar = () => {
 
   return (
     <header className="fixed top-3 sm:top-5 left-1/2 -translate-x-1/2 w-[calc(100%-1.25rem)] sm:w-[94%] max-w-[1200px] z-50">
-      <nav aria-label="منوی اصلی" className="relative rounded-2xl border border-white/15 bg-slate-900/55 px-4 sm:px-6 py-3 shadow-[0_12px_40px_rgba(0,0,0,.24),inset_0_1px_0_rgba(255,255,255,.12)] backdrop-blur-2xl supports-[backdrop-filter]:bg-slate-900/35">
+      <nav aria-label="منوی اصلی" className="relative rounded-xl md:rounded-full border border-white/15 bg-slate-900/55 px-4 sm:px-6 py-3 shadow-[0_12px_40px_rgba(0,0,0,.24),inset_0_1px_0_rgba(255,255,255,.12)] backdrop-blur-2xl supports-[backdrop-filter]:bg-slate-900/35">
         <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent" />
         <div className="flex items-center justify-between gap-3">
           <Link to="/" onClick={closeMenu} className="flex items-center gap-2.5 text-lg sm:text-xl font-bold text-slate-50 no-underline shrink-0">

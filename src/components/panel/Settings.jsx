@@ -1,198 +1,37 @@
-import React, { useState } from 'react';
+import React,{useEffect,useMemo,useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import PanelIcon from './PanelIcon';
-
-const Settings = () => {
-  const [activeTab, setActiveTab] = useState('profile');
-
-  const ToggleSwitch = ({ active }) => (
-    <div className={`w-11 h-6 rounded-full p-1 cursor-pointer transition-colors ${active ? 'bg-brandPurple' : 'bg-white/10'}`}>
-      <div className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${active ? '-translate-x-5' : 'translate-x-0'}`}></div>
-    </div>
-  );
-
-  return (
-    <div className="h-full overflow-y-auto overflow-x-hidden p-8 relative w-full">
-      <div className="absolute top-[10%] right-[-5%] w-96 h-96 bg-brandPink/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
-
-      <div className="max-w-4xl mx-auto w-full relative z-10">
-        <div className="mb-8 border-b border-white/10 pb-6">
-          <h1 className="text-3xl font-bold mb-2 text-slate-50">تنظیمات</h1>
-          <p className="text-slate-50/50 text-sm">حساب کاربری، ترجیحات و اشتراک خود را مدیریت کنید.</p>
-        </div>
-
-        <div className="flex flex-col md:flex-row gap-8">
-          
-          <div className="w-full md:w-64 shrink-0 space-y-2">
-            {[
-              { id: 'profile', icon: 'user', label: 'اطلاعات پروفایل' },
-              { id: 'billing', icon: 'analytics', label: 'اشتراک و مالی' },
-              { id: 'preferences', icon: 'settings', label: 'ترجیحات برنامه' },
-              { id: 'notifications', icon: 'bell', label: 'اعلان‌ها' },
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all text-right ${
-                  activeTab === tab.id 
-                    ? 'bg-brandPurple/20 border border-brandPurple/30 text-white font-bold' 
-                    : 'bg-transparent border border-transparent text-slate-50/60 hover:bg-white/5 hover:text-slate-50'
-                }`}
-              >
-                <PanelIcon name={tab.icon} size={18} />
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex-1">
-            
-            {activeTab === 'profile' && (
-              <div className="animate-[fadeSlide_0.3s_ease-out] space-y-6">
-                <div className="bg-[#0f0c32]/60 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
-                  <h3 className="font-bold text-lg mb-6">عکس پروفایل</h3>
-                  <div className="flex items-center gap-6">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-brandBlue to-brandPurple p-[2px]">
-                      <div className="w-full h-full bg-darkBg rounded-full border-2 border-white/20 flex items-center justify-center text-2xl">🧑‍💻</div>
-                    </div>
-                    <div className="space-y-2">
-                      <button className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-sm transition-colors text-white">تغییر عکس</button>
-                      <p className="text-xs text-slate-50/40">فرمت‌های مجاز: JPG, PNG. حداکثر ۲ مگابایت.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-[#0f0c32]/60 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
-                  <h3 className="font-bold text-lg mb-6">اطلاعات شخصی</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
-                    <div>
-                      <label className="block text-xs text-slate-50/50 mb-2">نام و نام خانوادگی</label>
-                      <input type="text" defaultValue="علی حسینی" className="w-full bg-darkBg/50 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-brandPurple transition-colors text-white" />
-                    </div>
-                    <div>
-                      <label className="block text-xs text-slate-50/50 mb-2">نام کاربری</label>
-                      <input type="text" defaultValue="@alihosseini" className="w-full bg-darkBg/50 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-brandPurple transition-colors text-slate-50/70" disabled />
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-xs text-slate-50/50 mb-2">ایمیل</label>
-                      <input type="email" defaultValue="ali@example.com" className="w-full bg-darkBg/50 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-brandPurple transition-colors text-white" />
-                    </div>
-                  </div>
-                  <div className="flex justify-end pt-4 border-t border-white/5">
-                    <button className="px-6 py-2.5 bg-gradient-to-br from-brandPurple to-brandViolet text-white rounded-xl text-sm font-bold shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:shadow-[0_0_25px_rgba(139,92,246,0.6)] transition-all">
-                      ذخیره تغییرات
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* تب اشتراک و مالی */}
-            {activeTab === 'billing' && (
-              <div className="animate-[fadeSlide_0.3s_ease-out] space-y-6">
-                <div className="bg-gradient-to-br from-[#1a1642] to-[#0f0c32] border border-brandPurple/30 rounded-2xl p-8 backdrop-blur-md relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-32 h-32 bg-brandPurple/30 blur-3xl rounded-full"></div>
-                  
-                  <div className="flex justify-between items-start mb-6 relative z-10">
-                    <div>
-                      <h3 className="font-bold text-lg mb-1 flex items-center gap-2">
-                        طرح فعلی شما: <span className="bg-white/10 px-2 py-0.5 rounded text-sm text-brandPurple font-bold">رایگان (Free)</span>
-                      </h3>
-                      <p className="text-sm text-slate-50/50">شما در حال استفاده از پلن پایه هستید.</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold">۰ تومان<span className="text-sm font-normal text-slate-50/50">/ماه</span></div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 mb-8 relative z-10">
-                    <div className="text-xs text-slate-50/60 mb-2">میزان مصرف شما این ماه:</div>
-                    <div>
-                      <div className="flex justify-between text-xs mb-1">
-                        <span>وظایف (۲۵ از ۵۰)</span>
-                        <span>۵۰٪</span>
-                      </div>
-                      <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                        <div className="w-1/2 h-full bg-brandBlue"></div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-xs mb-1">
-                        <span>درخواست‌های AI (۰ از ۰)</span>
-                        <span className="text-brandPink">نیاز به ارتقا</span>
-                      </div>
-                      <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                        <div className="w-0 h-full bg-brandPink"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button className="w-full py-3 bg-gradient-to-br from-brandPurple to-brandViolet text-white rounded-xl text-sm font-bold shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] transition-all relative z-10 flex items-center justify-center gap-2">
-                    <span>👑</span> ارتقا به نسخه Pro (حرفه‌ای)
-                  </button>
-                </div>
-
-                <div className="bg-[#0f0c32]/60 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
-                  <h3 className="font-bold text-lg mb-4">تاریخچه پرداخت‌ها</h3>
-                  <div className="text-center py-8 text-sm text-slate-50/40">
-                    شما هنوز هیچ پرداختی نداشته‌اید.
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* تب تنظیمات برنامه و اعلان‌ها (مخلوطی برای نمایش) */}
-            {(activeTab === 'preferences' || activeTab === 'notifications') && (
-              <div className="animate-[fadeSlide_0.3s_ease-out] space-y-6">
-                <div className="bg-[#0f0c32]/60 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
-                  <h3 className="font-bold text-lg mb-6">تنظیمات ظاهری</h3>
-                  <div className="flex items-center justify-between py-3 border-b border-white/5">
-                    <div>
-                      <div className="font-bold text-sm">تم تاریک (Dark Mode)</div>
-                      <div className="text-xs text-slate-50/50">استفاده از پس‌زمینه تیره برای محافظت از چشم.</div>
-                    </div>
-                    <ToggleSwitch active={true} />
-                  </div>
-                  <div className="flex items-center justify-between py-3">
-                    <div>
-                      <div className="font-bold text-sm">انیمیشن‌های رابط کاربری</div>
-                      <div className="text-xs text-slate-50/50">خاموش کردن برای سیستم‌های ضعیف‌تر.</div>
-                    </div>
-                    <ToggleSwitch active={true} />
-                  </div>
-                </div>
-
-                <div className="bg-[#0f0c32]/60 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
-                  <h3 className="font-bold text-lg mb-6">ارسال اعلان‌ها</h3>
-                  <div className="flex items-center justify-between py-3 border-b border-white/5">
-                    <div>
-                      <div className="font-bold text-sm">یادآور روزانه وظایف</div>
-                      <div className="text-xs text-slate-50/50">ارسال ایمیل خلاصه وظایف هر روز صبح.</div>
-                    </div>
-                    <ToggleSwitch active={true} />
-                  </div>
-                  <div className="flex items-center justify-between py-3 border-b border-white/5">
-                    <div>
-                      <div className="font-bold text-sm">اعلان تکمیل برنامه‌ریزی AI</div>
-                      <div className="text-xs text-slate-50/50">وقتی هوش مصنوعی ساخت برنامه را تمام کرد به من خبر بده.</div>
-                    </div>
-                    <ToggleSwitch active={true} />
-                  </div>
-                  <div className="flex items-center justify-between py-3">
-                    <div>
-                      <div className="font-bold text-sm">تخفیف‌ها و پیشنهادات ویژه</div>
-                      <div className="text-xs text-slate-50/50">ارسال ایمیل‌های مارکتینگ و اخبار آپدیت‌ها.</div>
-                    </div>
-                    <ToggleSwitch active={false} />
-                  </div>
-                </div>
-              </div>
-            )}
-            
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Settings;
+import {api,authApi} from '../../lib/api';
+import {useAuth} from '../../context/AuthContext';
+import {useToast} from '../../context/ToastContext';
+const box='rounded-2xl border border-white/10 bg-[#11102f]/70 p-5 sm:p-6';
+const input='mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white';
+const defaultSettings={theme:'dark',language:'fa',notificationsEnabled:true,timezone:'Asia/Tehran',preferences:{compactMode:false,weekStartsOn:'saturday',dateFormat:'jalali',soundEnabled:true,animationMode:'auto',scrollAnimations:true},privacy:{profileVisibility:'private',showOnlineStatus:true},notificationPreferences:{email:false,push:true,taskReminders:true,teamActivity:true}};
+const tabs=[['profile','پروفایل','user'],['security','امنیت و نشست‌ها','shield'],['accounts','مدیریت حساب‌ها','users'],['preferences','ترجیحات و انیمیشن','settings'],['notifications','اعلان‌ها','bell'],['billing','اشتراک','analytics'],['privacy','حریم خصوصی','lock']];
+function readAccounts(){try{return JSON.parse(localStorage.getItem('mhflow.saved.accounts')||'[]')}catch{return[]}}
+export default function Settings(){
+ const toast=useToast();const navigate=useNavigate();const {user,setUser}=useAuth();const [tab,setTab]=useState('profile');const [profile,setProfile]=useState({displayName:user?.displayName||'',email:user?.email||''});const [settings,setSettings]=useState(defaultSettings);const [sessions,setSessions]=useState([]);const [accounts,setAccounts]=useState(readAccounts);const [subscription,setSubscription]=useState(null);const [plans,setPlans]=useState([]);const [payments,setPayments]=useState([]);const [loading,setLoading]=useState(true);const [passwords,setPasswords]=useState({currentPassword:'',newPassword:''});const [busy,setBusy]=useState(false);
+ useEffect(()=>{let alive=true;(async()=>{try{const [p,s,b,ss,pl]=await Promise.all([api('/settings/profile'),api('/settings'),api('/billing/me'),authApi.sessions(),api('/billing/plans')]);if(!alive)return;setProfile({displayName:p.profile.displayName||'',email:p.profile.email||''});document.documentElement.dataset.theme=s.settings.theme||'dark';localStorage.setItem('mhflow.theme',s.settings.theme||'dark');setSettings({...defaultSettings,...s.settings,preferences:{...defaultSettings.preferences,...s.settings.preferences},privacy:{...defaultSettings.privacy,...s.settings.privacy},notificationPreferences:{...defaultSettings.notificationPreferences,...s.settings.notificationPreferences}});setSubscription(b.subscription);setSessions(ss.sessions||[]);setPlans(pl.plans||[]);const pay=await api('/billing/payments');setPayments(pay.payments||[]);}catch(e){toast(e.message,'error');}finally{if(alive)setLoading(false);}})();return()=>{alive=false}},[]);
+ const saveProfile=async(e)=>{e.preventDefault();setBusy(true);try{const r=await api('/settings/profile',{method:'PATCH',body:{displayName:profile.displayName.trim()}});setProfile(v=>({...v,displayName:r.profile.displayName}));setUser(v=>({...v,displayName:r.profile.displayName}));toast('اطلاعات پروفایل ذخیره شد.');}catch(e){toast(e.message,'error');}finally{setBusy(false)}};
+ const saveSettings=async(next)=>{document.documentElement.dataset.theme=next.theme||settings.theme||'dark';localStorage.setItem('mhflow.theme',next.theme||settings.theme||'dark');try{const r=await api('/settings',{method:'PATCH',body:{theme:next.theme,language:next.language,timezone:next.timezone,notificationsEnabled:next.notificationsEnabled,preferences:next.preferences,privacy:next.privacy,notificationPreferences:next.notificationPreferences}});document.documentElement.dataset.theme=r.settings.theme||next.theme||'dark';localStorage.setItem('mhflow.theme',r.settings.theme||next.theme||'dark');setSettings({...defaultSettings,...r.settings,preferences:{...defaultSettings.preferences,...r.settings.preferences},privacy:{...defaultSettings.privacy,...r.settings.privacy},notificationPreferences:{...defaultSettings.notificationPreferences,...r.settings.notificationPreferences}});localStorage.setItem('mhflow.motion.settings',JSON.stringify({mode:next.preferences.animationMode,scroll:next.preferences.scrollAnimations}));window.dispatchEvent(new Event('mhflow:motion-settings'));toast('تنظیمات در حساب کاربری ذخیره شد.');}catch(e){toast(e.message,'error');}};
+ const setPref=(key,value)=>saveSettings({...settings,preferences:{...settings.preferences,[key]:value}});
+ const setNotify=(key,value)=>saveSettings({...settings,notificationPreferences:{...settings.notificationPreferences,[key]:value}});
+ const revoke=async(id)=>{try{await authApi.revokeSession(id);const r=await authApi.sessions();setSessions(r.sessions||[]);toast('نشست انتخاب‌شده لغو شد.');}catch(e){toast(e.message,'error')}};
+ const revokeOthers=async()=>{try{await authApi.revokeOtherSessions();const r=await authApi.sessions();setSessions(r.sessions||[]);toast('تمام نشست‌های دیگر لغو شدند.');}catch(e){toast(e.message,'error')}};
+ const changePassword=async(e)=>{e.preventDefault();setBusy(true);try{await api('/settings/password',{method:'POST',body:passwords});setPasswords({currentPassword:'',newPassword:''});toast('رمز عبور تغییر کرد. برای ادامه نشست را تازه‌سازی کن.','info');await authApi.logout();setUser(null);location.assign('/login');}catch(e){toast(e.message,'error')}finally{setBusy(false)}};
+ const addCurrent=()=>{const next=[{email:user?.email,displayName:user?.displayName||user?.email,addedAt:new Date().toISOString()},...accounts.filter(a=>a.email!==user?.email)].slice(0,8);localStorage.setItem('mhflow.saved.accounts',JSON.stringify(next));setAccounts(next);toast('این حساب به فهرست حساب‌ها اضافه شد.');};
+ const removeAccount=(email)=>{const next=accounts.filter(a=>a.email!==email);localStorage.setItem('mhflow.saved.accounts',JSON.stringify(next));setAccounts(next);toast('حساب از فهرست این مرورگر حذف شد.');};
+ const switchAccount=async(email)=>{try{await authApi.logout();setUser(null);navigate(`/login?email=${encodeURIComponent(email)}`);}catch(e){toast(e.message,'error');}};
+ const buy=async(planCode,billingPeriod)=>{try{const r=await api('/billing/checkout',{method:'POST',body:{planCode,billingPeriod}});toast(r.checkout?.reason||'درخواست پرداخت ثبت شد.','info',5500);}catch(e){toast(e.message,'error')}};
+ const activePlan=subscription?.plan_code||'free';
+ const Switch=({label,desc,checked,onChange})=><div className="flex items-center justify-between gap-4 border-b border-white/5 py-4 last:border-0"><div><p className="text-sm font-semibold">{label}</p><p className="mt-1 text-xs leading-6 text-slate-500">{desc}</p></div><button type="button" role="switch" aria-checked={!!checked} onClick={()=>onChange(!checked)} className={`relative h-7 w-12 shrink-0 rounded-full border ${checked?'border-violet-300/50 bg-violet-500':'border-white/15 bg-white/10'}`}><span className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-all ${checked?'right-1':'right-6'}`}/></button></div>;
+ return <section dir="rtl" className="min-h-full p-4 text-white sm:p-8"><div className="mx-auto max-w-6xl"><header className="mb-7"><p className="text-xs font-bold text-violet-300">MH FLOW / SETTINGS</p><h1 className="mt-2 text-2xl font-black sm:text-3xl">تنظیمات حساب</h1></header><div className="grid gap-5 md:grid-cols-[220px_minmax(0,1fr)]"><nav className="flex gap-2 overflow-x-auto pb-2 md:flex-col">{tabs.map(([id,label,icon])=><button key={id} onClick={()=>setTab(id)} className={`flex shrink-0 items-center gap-3 rounded-xl border px-4 py-3 text-right text-xs ${tab===id?'border-violet-300/25 bg-violet-400/15 text-violet-100':'border-transparent text-slate-400 hover:bg-white/5'}`}><PanelIcon name={icon} size={17}/>{label}</button>)}</nav><div className="min-w-0 space-y-5">{loading&&<p className="text-sm text-slate-400">در حال دریافت تنظیمات حساب...</p>}
+ {tab==='profile'&&<><form onSubmit={saveProfile} className={box}><h2 className="mb-5 text-lg font-bold">اطلاعات حساب</h2><div className="grid gap-4 sm:grid-cols-2"><label className="text-xs text-slate-400">نام نمایشی<input required minLength={2} maxLength={100} value={profile.displayName} onChange={e=>setProfile(v=>({...v,displayName:e.target.value}))} className={input}/></label><label className="text-xs text-slate-400">ایمیل<input disabled value={profile.email} className={`${input} opacity-60`}/></label></div><button disabled={busy} className="mt-5 rounded-xl bg-violet-500 px-5 py-3 text-xs font-bold">ذخیره پروفایل</button></form><form onSubmit={changePassword} className={box}><h2 className="mb-4 font-bold">تغییر رمز عبور</h2><div className="grid gap-3 sm:grid-cols-2"><label className="text-xs text-slate-400">رمز فعلی<input required type="password" maxLength={72} value={passwords.currentPassword} onChange={e=>setPasswords(v=>({...v,currentPassword:e.target.value}))} className={input}/></label><label className="text-xs text-slate-400">رمز جدید<input required type="password" minLength={10} maxLength={72} value={passwords.newPassword} onChange={e=>setPasswords(v=>({...v,newPassword:e.target.value}))} className={input}/></label></div><p className="mt-2 text-[10px] text-slate-500">حداقل ۱۰ کاراکتر و شامل حرف و عدد</p><button disabled={busy} className="mt-4 rounded-xl border border-white/10 bg-white/10 px-5 py-3 text-xs">تغییر رمز</button></form></>}
+ {tab==='security'&&<><section className={box}><div className="mb-4 flex flex-wrap items-center justify-between gap-3"><div><h2 className="font-bold">نشست‌های فعال و تاریخچه ورود</h2><p className="mt-1 text-xs text-slate-500">دستگاه، IP و زمان شروع نشست</p></div><button onClick={revokeOthers} className="rounded-lg border border-rose-300/20 bg-rose-400/10 px-3 py-2 text-[10px] text-rose-200">خروج از سایر دستگاه‌ها</button></div><div className="space-y-2">{sessions.map(s=><div key={s.id} className="rounded-xl border border-white/10 bg-white/[.025] p-4"><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="text-sm font-semibold">{s.device_label||'دستگاه ناشناس'} {s.is_current&&<span className="mr-2 rounded bg-emerald-400/10 px-2 py-1 text-[9px] text-emerald-300">این دستگاه</span>}</p><p className="mt-1 text-[10px] text-slate-500">IP: {s.ip_address||'نامشخص'}</p><p className="mt-1 text-[10px] text-slate-500">ورود: {new Date(s.login_at).toLocaleString('fa-IR')} · آخرین فعالیت: {new Date(s.last_seen_at).toLocaleString('fa-IR')}</p>{s.logout_at&&<p className="mt-1 text-[10px] text-slate-600">خروج: {new Date(s.logout_at).toLocaleString('fa-IR')}</p>}{s.revoked_at&&<p className="mt-1 text-[10px] text-rose-300">نشست لغو شده: {new Date(s.revoked_at).toLocaleString('fa-IR')}</p>}{!s.logout_at&&!s.revoked_at&&<p className="mt-1 text-[10px] text-emerald-300">خروج از این نشست ثبت نشده است</p>}</div>{!s.is_current&&!s.logout_at&&!s.revoked_at&&<button onClick={()=>revoke(s.id)} className="text-[10px] text-rose-300">لغو نشست</button>}</div></div>)}{!sessions.length&&<p className="py-5 text-center text-xs text-slate-500">نشستی ثبت نشده است.</p>}</div></section><section className={box}><h2 className="mb-3 font-bold">وضعیت حساب</h2><p className={`text-sm ${user?.accountStatus==='active'?'text-emerald-300':'text-rose-300'}`}>{user?.accountStatus==='suspended'?'حساب معلق':user?.accountStatus==='banned'?'حساب مسدود':'فعال'}</p>{user?.statusReason&&<p className="mt-2 text-xs text-slate-400">دلیل: {user.statusReason}</p>}{user?.suspendedUntil&&<p className="mt-2 text-xs text-slate-500">رفع محدودیت: {new Date(user.suspendedUntil).toLocaleString('fa-IR')}</p>}</section></>}
+ {tab==='accounts'&&<section className={box}><h2 className="mb-2 font-bold">مدیریت چند حساب در این مرورگر</h2><p className="mb-5 text-xs leading-6 text-slate-500">فقط شناسه و نام حساب در دستگاه ذخیره می‌شود؛ رمز عبور ذخیره نمی‌شود. برای جابه‌جایی، ورود دوباره با رمز همان حساب انجام می‌شود.</p><button onClick={addCurrent} className="rounded-xl bg-violet-500 px-4 py-3 text-xs font-bold">افزودن حساب فعلی</button><div className="mt-4 space-y-2">{accounts.map(a=><div key={a.email} className="flex items-center justify-between gap-3 rounded-xl border border-white/10 p-3"><div><p className="text-xs font-bold">{a.displayName}</p><p className="mt-1 text-[10px] text-slate-500">{a.email}</p></div><div className="flex gap-3"><button type="button" onClick={()=>switchAccount(a.email)} className="text-xs text-violet-300">ورود / جابه‌جایی</button><button onClick={()=>removeAccount(a.email)} className="text-xs text-rose-300">حذف</button></div></div>)}</div></section>}
+ {tab==='preferences'&&<><section className={box}><h2 className="mb-2 font-bold">ظاهر برنامه</h2><p className="mb-2 text-xs leading-6 text-slate-500">تم موردنظر برای پنل و بخش‌های پشتیبانی‌شده را انتخاب کن.</p><div className="grid grid-cols-2 gap-3"><button type="button" onClick={()=>saveSettings({...settings,theme:'dark'})} className={`rounded-xl border p-4 text-xs ${settings.theme==='dark'?'border-violet-300/50 bg-violet-400/10':'border-white/10'}`}>🌙 حالت تاریک</button><button type="button" onClick={()=>saveSettings({...settings,theme:'light'})} className={`rounded-xl border p-4 text-xs ${settings.theme==='light'?'border-violet-300/50 bg-violet-400/10':'border-white/10'}`}>☀️ حالت روشن</button></div></section><section className={box}><h2 className="mb-2 font-bold">انیمیشن و عملکرد</h2><p className="mb-3 text-xs leading-6 text-slate-500">در حالت خودکار، شدت حرکت با توجه به توان دستگاه و تنظیم کاهش حرکت سیستم انتخاب می‌شود.</p><label className="block text-xs text-slate-400">شدت انیمیشن<select value={settings.preferences.animationMode||'auto'} onChange={e=>setPref('animationMode',e.target.value)} className={input}><option value="auto">خودکار و تطبیقی</option><option value="full">کامل</option><option value="reduced">ملایم</option><option value="off">خاموش</option></select></label><Switch label="انیمیشن هنگام اسکرول" desc="نمایش تدریجی بخش‌ها هنگام ورود به محدوده دید." checked={settings.preferences.scrollAnimations!==false} onChange={v=>setPref('scrollAnimations',v)}/><Switch label="حالت فشرده" desc="کاهش فاصله‌ها برای نمایش اطلاعات بیشتر." checked={!!settings.preferences.compactMode} onChange={v=>setPref('compactMode',v)}/></section></>}
+ {tab==='notifications'&&<section className={box}><h2 className="mb-2 font-bold">تنظیمات اعلان‌ها</h2>{[['push','اعلان‌های درون برنامه'],['email','ایمیل'],['taskReminders','یادآور وظایف'],['teamActivity','فعالیت تیم']].map(([key,label])=><Switch key={key} label={label} desc="ترجیح دریافت این نوع اعلان." checked={!!settings.notificationPreferences?.[key]} onChange={v=>setNotify(key,v)}/>)}</section>}
+ {tab==='billing'&&<><section className={box}><div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="font-bold">اشتراک فعلی</h2><p className="mt-2 text-sm text-slate-300">{subscription?.plan_name||'Free'}</p></div><span className="rounded-full bg-emerald-400/10 px-3 py-1.5 text-xs text-emerald-300">{subscription?.status==='active'?'فعال':'بدون اشتراک پولی'}</span></div></section><section className={box}><h2 className="mb-4 font-bold">پلن‌ها</h2><div className="grid gap-3 md:grid-cols-2">{plans.filter(p=>p.code!=='free').map(p=><div key={p.code} className="rounded-xl border border-white/10 p-4"><p className="font-bold">{p.name}</p><p className="mt-3 text-sm">ماهانه: {Number(p.price_monthly_toman).toLocaleString('fa-IR')} تومان</p><p className="mt-1 text-sm">سالانه: {Number(p.price_yearly_toman).toLocaleString('fa-IR')} تومان</p><div className="mt-4 flex gap-2"><button onClick={()=>buy(p.code,'month')} className="rounded-lg bg-violet-500 px-3 py-2 text-[10px]">ماهانه</button><button onClick={()=>buy(p.code,'year')} className="rounded-lg border border-white/10 px-3 py-2 text-[10px]">سالانه</button></div></div>)}</div><p className="mt-4 text-[10px] text-amber-200/70">درگاه پرداخت هنوز انتخاب نشده؛ درخواست خرید فقط پیش‌فاکتور ایجاد می‌کند و اشتراک را فعال نمی‌کند.</p></section><section className={box}><h2 className="mb-3 font-bold">تراکنش‌ها</h2>{payments.map(p=><div key={p.id} className="flex justify-between border-b border-white/5 py-3 text-xs"><span>{p.plan_code} · {new Date(p.created_at).toLocaleDateString('fa-IR')}</span><span>{Number(p.amount_toman).toLocaleString('fa-IR')} تومان · {p.status}</span></div>)}{!payments.length&&<p className="text-xs text-slate-500">تراکنشی ثبت نشده است.</p>}</section></>}
+ {tab==='privacy'&&<section className={box}><h2 className="mb-3 font-bold">حریم خصوصی و داده‌ها</h2><p className="text-sm leading-7 text-slate-400">اطلاعات حساب، نشست‌ها و رویدادهای امنیتی برای حفاظت از حساب ذخیره می‌شوند. IP و مشخصات دستگاه در تاریخچه نشست‌ها فقط برای صاحب حساب قابل مشاهده است.</p><div className="mt-5 flex flex-wrap gap-3"><Link to="/privacy" className="rounded-xl bg-violet-500 px-4 py-3 text-xs no-underline">سیاست حریم خصوصی</Link><Link to="/report-bug" className="rounded-xl border border-white/10 px-4 py-3 text-xs no-underline">گزارش مشکل</Link></div></section>}
+ </div></div></div></section>;
+}

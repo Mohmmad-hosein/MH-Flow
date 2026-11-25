@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { authApi } from "../../lib/api";
+import { useAuth } from "../../context/AuthContext";
+import { useToast } from "../../context/ToastContext";
 import PanelIcon from "./PanelIcon";
 
 const ProBadge = () => (
@@ -11,6 +14,17 @@ const ProBadge = () => (
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
+  const toast = useToast();
+  const [loggingOut, setLoggingOut] = useState(false);
+  const logout = async () => {
+    if (loggingOut) return;
+    setLoggingOut(true);
+    try { await authApi.logout(); setUser(null); toast("با موفقیت از حساب خارج شدی."); navigate("/login", { replace: true }); }
+    catch (error) { toast(error.message || "خروج از حساب انجام نشد.", "error"); }
+    finally { setLoggingOut(false); }
+  };
 
   const isActive = (path) => path === "/dashboard" ? location.pathname === path : location.pathname === path || location.pathname.startsWith(`${path}/`);
 
@@ -61,6 +75,15 @@ const Sidebar = () => {
             <PanelIcon name="tasks" size={19} />
             {!isCollapsed && <span>وظایف من</span>}
           </Link>
+          <Link to="/dashboard/projects" title={isCollapsed ? "پروژه‌ها" : undefined} className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${isActive("/dashboard/projects") ? "bg-brandPurple/15 text-brandPurple font-semibold border border-brandPurple/30" : "text-slate-50/55 hover:text-slate-50 hover:bg-white/5 border border-transparent"} ${isCollapsed ? "justify-center" : ""}`}><PanelIcon name="folder" size={19}/>{!isCollapsed && <span>پروژه‌ها</span>}</Link>
+          <Link
+            to="/dashboard/calendar"
+            title={isCollapsed ? "تقویم" : undefined}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${isActive("/dashboard/calendar") ? "bg-brandPurple/15 text-brandPurple font-semibold border border-brandPurple/30" : "text-slate-50/55 hover:text-slate-50 hover:bg-white/5 border border-transparent"} ${isCollapsed ? "justify-center" : ""}`}
+          >
+            <PanelIcon name="calendar" size={19} />
+            {!isCollapsed && <span>تقویم</span>}
+          </Link>
           <Link
             to="/dashboard/profile"
             title={isCollapsed ? "پروفایل من" : undefined}
@@ -78,6 +101,18 @@ const Sidebar = () => {
               {!isCollapsed && <span>تنظیمات</span>}
             </Link>
           </div>
+        </div>
+
+        {!isCollapsed && (
+          <div className="text-[10px] text-slate-50/40 mb-2 mt-6 px-6">همکاری تیمی</div>
+        )}
+        <div className="px-3 space-y-1">
+          <Link to="/dashboard/workspace" title={isCollapsed ? "فضای کاری تیم" : undefined} className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${isActive("/dashboard/workspace") ? "bg-brandPurple/15 text-brandPurple font-semibold border border-brandPurple/30" : "text-slate-50/55 hover:text-slate-50 hover:bg-white/5 border border-transparent"} ${isCollapsed ? "justify-center" : ""}`}>
+            <PanelIcon name="workspace" size={19}/>{!isCollapsed && <><span>فضای کاری تیم</span><span className="mr-auto rounded-full bg-emerald-400/10 px-2 py-0.5 text-[9px] text-emerald-300">Team</span></>}
+          </Link>
+          <Link to="/dashboard/team-chat" title={isCollapsed ? "گفت‌وگوی تیمی" : undefined} className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors ${isActive("/dashboard/team-chat") ? "bg-brandPurple/15 text-brandPurple font-semibold border border-brandPurple/30" : "text-slate-50/55 hover:text-slate-50 hover:bg-white/5 border border-transparent"} ${isCollapsed ? "justify-center" : ""}`}>
+            <PanelIcon name="chat" size={19}/>{!isCollapsed && <><span>گفت‌وگوی تیمی</span><span className="mr-auto rounded-full bg-emerald-400/10 px-2 py-0.5 text-[9px] text-emerald-300">Team</span></>}
+          </Link>
         </div>
 
         {!isCollapsed && (
@@ -123,21 +158,23 @@ const Sidebar = () => {
             <p className="text-[10px] text-slate-50/60 mb-3 relative z-10">
               دسترسی نامحدود به هوش مصنوعی و تحلیل‌ها.
             </p>
-            <button className="w-full py-2 bg-gradient-to-br from-brandPurple to-brandViolet text-white text-xs font-bold rounded-lg relative z-10 shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:-translate-y-0.5 transition-all">
+            <Link to="/#pricing" className="block w-full py-2 bg-gradient-to-br from-brandPurple to-brandViolet text-center text-white text-xs font-bold rounded-lg relative z-10 shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:-translate-y-0.5 transition-all no-underline">
               مشاهده پلن‌ها
-            </button>
+            </Link>
           </div>
         )}
       </div>
 
       <div className="p-3 border-t border-white/10">
-        <Link
-          to="/login"
-          className={`flex items-center gap-3 px-3 py-2.5 text-red-400/80 hover:text-red-400 hover:bg-red-500/10 rounded-xl text-sm transition-colors ${isCollapsed ? "justify-center" : ""}`}
+        <button
+          type="button"
+          onClick={logout}
+          disabled={loggingOut}
+          className={`w-full flex items-center gap-3 px-3 py-2.5 text-red-400/80 hover:text-red-400 hover:bg-red-500/10 rounded-xl text-sm transition-colors disabled:opacity-50 ${isCollapsed ? "justify-center" : ""}`}
         >
           <PanelIcon name="logout" size={19} />
-          {!isCollapsed && <span>خروج</span>}
-        </Link>
+          {!isCollapsed && <span>{loggingOut ? "در حال خروج..." : "خروج"}</span>}
+        </button>
       </div>
     </aside>
   );

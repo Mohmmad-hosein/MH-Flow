@@ -6,12 +6,14 @@ import NotFound from './pages/NotFound';
 import BugReport from './pages/BugReport';
 import Privacy from './pages/Privacy';
 import Dashboard from './pages/Dashboard';
+import Calendar from './pages/Calendar';
 
 import DashboardLayout from './components/panel/DashboardLayout';
 import Tasks from './components/panel/Task';
 import UserProfile from './components/panel/UserProfile';
 import Settings from './components/panel/Settings';
 import PanelFeature from './components/panel/PanelFeature';
+import TeamPreview from './components/panel/TeamPreview';
 
 function App() {
   return (
@@ -25,11 +27,14 @@ function App() {
         
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} /> 
-          <Route path="tasks" element={<Tasks />} /> 
+          <Route path="tasks" element={<Tasks />} />
+          <Route path="calendar" element={<Calendar />} /> 
           <Route path="profile" element={<UserProfile />} />
           <Route path="settings" element={<Settings />} />
           <Route path="ai-planner" element={<PanelFeature />} />
           <Route path="analytics" element={<PanelFeature />} />
+          <Route path="workspace" element={<TeamPreview />} />
+          <Route path="team-chat" element={<TeamPreview />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
         

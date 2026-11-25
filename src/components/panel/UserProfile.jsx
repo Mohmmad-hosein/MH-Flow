@@ -1,108 +1,78 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { api } from '../../lib/api';
+import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
+import PanelIcon from './PanelIcon';
 
-const UserProfile = () => {
-  return (
-    <div className="h-screen w-full bg-darkBg flex text-slate-50 overflow-hidden font-vazirmatn" dir="rtl">
-      
-      
-      <main className="flex-1 flex flex-col h-full relative overflow-y-auto p-8">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brandPurple/10 rounded-full blur-[150px] pointer-events-none"></div>
-
-        <div className="max-w-4xl mx-auto w-full relative z-10">
-          
-          <div className="flex justify-between items-end mb-8">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">پروفایل من</h1>
-              <p className="text-slate-50/50 text-sm">آمار، دستاوردها و وضعیت بهره‌وری شما.</p>
-            </div>
-            <button className="px-5 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl text-sm transition-all flex items-center gap-2">
-              ⚙️ تنظیمات حساب
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <div className="lg:col-span-1">
-              <div className="bg-gradient-to-b from-[#1a1642] to-[#0f0c32] border border-brandPurple/30 rounded-3xl p-8 backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.5)] relative overflow-hidden group">
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-brandPurple/40 blur-2xl rounded-full group-hover:bg-brandPurple/60 transition-colors"></div>
-                
-                <div className="text-center relative z-10">
-                  <div className="w-24 h-24 mx-auto bg-gradient-to-br from-brandBlue to-brandPurple rounded-full p-1 shadow-[0_0_20px_rgba(139,92,246,0.4)] mb-4">
-                    <div className="w-full h-full bg-darkBg rounded-full border-2 border-white/20 flex items-center justify-center text-3xl">
-                      🧑‍💻
-                    </div>
-                  </div>
-                  <h2 className="text-xl font-bold text-slate-50 mb-1">علی حسینی</h2>
-                  <div className="text-brandPurple text-xs font-semibold mb-6">MH Flow Pro Member ✦</div>
-
-                  <div className="grid grid-cols-2 gap-3 mb-8">
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-                      <div className="text-2xl font-bold text-slate-50 mb-1">۴۵</div>
-                      <div className="text-[10px] text-slate-50/50">وظایف تکمیل‌شده</div>
-                    </div>
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-                      <div className="text-2xl font-bold text-brandPink mb-1">۱۲🔥</div>
-                      <div className="text-[10px] text-slate-50/50">روز استریک (مداوم)</div>
-                    </div>
-                  </div>
-
-                  <button className="w-full py-3 bg-gradient-to-br from-brandPurple to-brandViolet text-white rounded-xl text-sm font-bold shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] transition-all flex items-center justify-center gap-2">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                    </svg>
-                    اشتراک‌گذاری پروفایل
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-2 space-y-6">
-              
-              <div className="bg-[#0f0c32]/60 border border-white/10 rounded-3xl p-6 backdrop-blur-md">
-                <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
-                  <span>🏆</span> دستاوردهای اخیر
-                </h3>
-                <div className="flex gap-4 overflow-x-auto pb-2">
-                  {[
-                    { icon: '🎯', name: 'تمرکز مطلق', desc: '۱۰ کار در یک روز' },
-                    { icon: '🤖', name: 'دوست AI', desc: 'تولید ۵ برنامه با AI' },
-                    { icon: '🌅', name: 'سحرخیز', desc: 'انجام کار قبل از ۸ صبح' }
-                  ].map((badge, idx) => (
-                    <div key={idx} className="min-w-[120px] bg-white/5 border border-white/10 rounded-2xl p-4 text-center hover:bg-brandPurple/10 transition-colors cursor-default">
-                      <div className="text-3xl mb-2">{badge.icon}</div>
-                      <div className="text-xs font-bold text-slate-50 mb-1">{badge.name}</div>
-                      <div className="text-[9px] text-slate-50/50">{badge.desc}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-[#0f0c32]/60 border border-white/10 rounded-3xl p-6 backdrop-blur-md">
-                <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
-                  <span>📈</span> میزان فعالیت در ماه اخیر
-                </h3>
-                <div className="flex flex-wrap gap-1.5 opacity-80">
-                  {Array.from({ length: 90 }).map((_, i) => {
-                    const intensity = Math.random();
-                    let bg = 'bg-white/5';
-                    if (intensity > 0.8) bg = 'bg-brandPurple';
-                    else if (intensity > 0.5) bg = 'bg-brandPurple/60';
-                    else if (intensity > 0.3) bg = 'bg-brandPurple/30';
-                    
-                    return (
-                      <div key={i} className={`w-3.5 h-3.5 rounded-sm ${bg} hover:border hover:border-white transition-all cursor-pointer`}></div>
-                    );
-                  })}
-                </div>
-              </div>
-
-            </div>
-          </div>
+const panel = 'rounded-2xl border border-white/10 bg-[#11102f]/70 p-5 sm:p-6';
+const fa = new Intl.NumberFormat('fa-IR');
+const date = (value) => value ? new Date(value).toLocaleDateString('fa-IR', {year:'numeric',month:'long',day:'numeric'}) : '—';
+export default function UserProfile() {
+  const toast = useToast();
+  const { user, setUser } = useAuth();
+  const [profile, setProfile] = useState({displayName:user?.displayName || '', email:user?.email || '', role:user?.role || 'user', createdAt:user?.createdAt || null});
+  const [tasks, setTasks] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [sessions, setSessions] = useState([]);
+  const [busy, setBusy] = useState(true);
+  const [saving, setSaving] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    Promise.all([api('/settings/profile'), api('/tasks'), api('/projects'), api('/auth/sessions')])
+      .then(([p,t,pr,se]) => {
+        if (!alive) return;
+        setProfile(p.profile);
+        setTasks(t.tasks || []);
+        setProjects(pr.projects || []);
+        setSessions(se.sessions || []);
+      })
+      .catch((error) => toast(error.message, 'error'))
+      .finally(() => { if (alive) setBusy(false); });
+    return () => { alive = false; };
+  }, []);
+  const stats = useMemo(() => ({
+    total: tasks.length,
+    done: tasks.filter(x => x.status === 'done').length,
+    active: tasks.filter(x => x.status === 'in_progress').length,
+    projects: projects.length,
+  }), [tasks, projects]);
+  const save = async (event) => {
+    event.preventDefault(); setSaving(true);
+    try {
+      const result = await api('/settings/profile', {method:'PATCH', body:{displayName:profile.displayName.trim()}});
+      setProfile(v => ({...v, ...result.profile}));
+      setUser(v => v ? {...v, displayName:result.profile.displayName} : v);
+      toast('پروفایل با موفقیت به‌روزرسانی شد.');
+    } catch (error) { toast(error.message, 'error'); }
+    finally { setSaving(false); }
+  };
+  return <section dir="rtl" className="min-h-full p-4 text-white sm:p-8">
+    <div className="mx-auto max-w-6xl">
+      <header className="mb-7 flex flex-wrap items-center justify-between gap-4">
+        <div><p className="text-xs font-bold text-violet-300">MH FLOW / ACCOUNT</p><h1 className="mt-2 text-2xl font-black sm:text-3xl">پروفایل من</h1><p className="mt-2 text-sm text-slate-400">اطلاعات و فعالیت واقعی حساب کاربری</p></div>
+        <Link to="/dashboard/settings" className="rounded-xl border border-white/10 px-4 py-3 text-xs text-slate-200 no-underline">تنظیمات حساب</Link>
+      </header>
+      <div className={`${panel} mb-5 flex flex-wrap items-center gap-4`}>
+        <div className="grid h-16 w-16 place-items-center rounded-2xl border border-violet-300/20 bg-violet-400/10 text-2xl font-black text-violet-200">{(profile.displayName || profile.email || 'MH').slice(0,1).toUpperCase()}</div>
+        <div className="min-w-0 flex-1"><h2 className="truncate text-lg font-bold">{profile.displayName || 'کاربر MH Flow'}</h2><p className="mt-1 truncate text-xs text-slate-400">{profile.email}</p><p className="mt-2 text-[10px] text-slate-500">عضویت از {date(profile.createdAt)}</p></div>
+        <span className="rounded-full bg-emerald-400/10 px-3 py-1.5 text-[10px] text-emerald-300">{user?.accountStatus === 'banned' ? 'مسدود' : user?.accountStatus === 'suspended' ? 'معلق' : 'حساب فعال'}</span>
+      </div>
+      <form onSubmit={save} className={`${panel} mb-5`}>
+        <h2 className="mb-4 font-bold">اطلاعات نمایشی</h2>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="text-xs text-slate-400">نام نمایشی<input required minLength={2} maxLength={100} value={profile.displayName || ''} onChange={e=>setProfile(v=>({...v,displayName:e.target.value}))} className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white"/></label>
+          <label className="text-xs text-slate-400">ایمیل<input disabled value={profile.email || ''} className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-slate-500"/></label>
         </div>
-      </main>
+        <button disabled={saving} className="mt-4 rounded-xl bg-violet-500 px-5 py-3 text-xs font-bold disabled:opacity-50">{saving?'در حال ذخیره...':'ذخیره تغییرات'}</button>
+      </form>
+      <div className="mb-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {[["همه وظایف",stats.total,'tasks'],['تکمیل‌شده',stats.done,'check-circle'],['در حال انجام',stats.active,'clock'],['پروژه‌ها',stats.projects,'folder']].map(([label,value,icon])=><article key={label} className="rounded-2xl border border-white/10 bg-gradient-to-br from-violet-500/10 to-transparent p-5"><div className="flex items-center justify-between"><span className="text-xs text-slate-400">{label}</span><PanelIcon name={icon} size={19}/></div><p className="mt-4 text-3xl font-black">{busy?'—':fa.format(value)}</p></article>)}
+      </div>
+      <section className={panel}><div className="mb-4 flex items-center justify-between"><h2 className="font-bold">نشست‌های حساب</h2><Link to="/dashboard/settings" className="text-xs text-violet-300 no-underline">مدیریت امنیت</Link></div>
+        {busy?<p className="py-5 text-center text-xs text-slate-400">در حال دریافت اطلاعات...</p>:sessions.slice(0,5).map(s=><div key={s.id} className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 py-3 last:border-0"><div><p className="text-xs font-semibold">{s.device_label || 'دستگاه ناشناس'} {s.is_current && <span className="mr-2 text-emerald-300">· این دستگاه</span>}</p><p className="mt-1 text-[10px] text-slate-500">{s.ip_address || 'IP نامشخص'} · ورود {new Date(s.login_at).toLocaleString('fa-IR')}</p></div><span className={`text-[10px] ${s.is_current?'text-emerald-300':'text-slate-500'}`}>{s.is_current?'فعال':'ثبت‌شده'}</span></div>)}
+        {!busy&&!sessions.length&&<p className="py-6 text-center text-xs text-slate-500">نشستی برای نمایش وجود ندارد.</p>}
+      </section>
     </div>
-  );
-};
-
-export default UserProfile;
+  </section>;
+}
